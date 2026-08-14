@@ -1,0 +1,21 @@
+name: Daily reminder
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # UTC 0:00 = 北京时间 8:00（实际推送可能晚几分钟）
+  workflow_dispatch:
+
+jobs:
+  remind:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: node scripts/daily-reminder.js
+        env:
+          SUPABASE_URL: https://jbkqugkxuoegnfhejwbi.supabase.co
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          SERVERCHAN_SENDKEY: ${{ secrets.SERVERCHAN_SENDKEY }}
