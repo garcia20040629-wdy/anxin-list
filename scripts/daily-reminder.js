@@ -6,8 +6,12 @@ const url = process.env.SUPABASE_URL
 const key = process.env.SUPABASE_SERVICE_KEY
 const sendKey = process.env.SERVERCHAN_SENDKEY
 
-if (!url || !key || !sendKey) {
-  console.error('缺少环境变量：SUPABASE_URL / SUPABASE_SERVICE_KEY / SERVERCHAN_SENDKEY')
+const missing = []
+if (!url) missing.push('SUPABASE_URL')
+if (!key) missing.push('SUPABASE_SERVICE_KEY')
+if (!sendKey) missing.push('SERVERCHAN_SENDKEY')
+if (missing.length) {
+  console.error('缺少环境变量：' + missing.join('、'))
   process.exit(1)
 }
 
