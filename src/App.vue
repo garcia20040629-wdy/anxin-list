@@ -7,6 +7,7 @@ import CaptureBar from './components/CaptureBar.vue'
 import TabBar from './components/TabBar.vue'
 import TaskList from './components/TaskList.vue'
 import TaskSheet from './components/TaskSheet.vue'
+import MoveSheet from './components/MoveSheet.vue'
 
 const { tasks, loading, error, load, add, update, toggleDone, move, remove, search, todayStr, reset } = useTasks()
 
@@ -21,6 +22,7 @@ const query = ref('')
 const results = ref([])
 const searchBusy = ref(false)
 const sheetTask = ref(null)
+const moveSheetTask = ref(null)
 const toast = ref('')
 let toastTimer = null
 let searchTimer = null
@@ -86,6 +88,19 @@ async function onRemove() {
     sheetTask.value = null
   } catch (e) {
     showToast('删除失败：' + (e.message || e))
+  }
+}
+
+async function onQuickMove(task) {
+  moveSheetTask.value = { ...task }
+}
+
+async function onMove(status) {
+  try {
+    await move(moveSheetTask.value.id, status)
+    moveSheetTask.value = null
+  } catch (e) {
+    showToast('移动失败：' + (e.message || e))
   }
 }
 
@@ -205,6 +220,7 @@ onMounted(async () => {
           empty-text="没有找到相关任务。"
           @toggle="onToggle"
           @open="openSheet"
+          @quickmove="onQuickMove"
         />
       </template>
     </template>
@@ -222,6 +238,7 @@ onMounted(async () => {
         :empty-text="emptyTexts[tab]"
         @toggle="onToggle"
         @open="openSheet"
+        @quickmove="onQuickMove"
       />
 
       <p class="footer-hint">电脑手机自动同步 · 每天早上 8 点微信提醒</p>
@@ -233,6 +250,13 @@ onMounted(async () => {
       @close="sheetTask = null"
       @save="onSave"
       @remove="onRemove"
+    />
+
+    <MoveSheet
+      v-if="moveSheetTask"
+      :task="moveSheetTask"
+      @close="moveSheetTask = null"
+      @move="onMove"
     />
 
     <div v-if="toast" class="toast">{{ toast }}</div>
