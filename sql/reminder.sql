@@ -38,11 +38,11 @@ begin
   end if;
 
   for t in
-    select title, note, due_date
+    select tasks.title, tasks.note, tasks.due_date
     from public.tasks
-    where status <> 'done'
-      and (status = 'today' or (due_date is not null and due_date <= today))
-    order by due_date asc nulls last
+    where tasks.status <> 'done'
+      and (tasks.status = 'today' or (tasks.due_date is not null and tasks.due_date <= today))
+    order by tasks.due_date asc nulls last
     limit 30
   loop
     n := n + 1;
