@@ -1,8 +1,8 @@
-name: Daily reminder
+name: Daily reminder (manual)
 
 on:
-  schedule:
-    - cron: '0 0 * * *' # UTC 0:00 = 北京时间 8:00（实际推送可能晚几分钟）
+  # 每日提醒已迁移到 Supabase pg_cron（sql/reminder.sql），
+  # 这里只保留手动触发，用于排查问题时测试
   workflow_dispatch:
 
 jobs:

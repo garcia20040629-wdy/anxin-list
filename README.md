@@ -12,7 +12,8 @@
 - 前端：Vue 3 + Vite + vite-plugin-pwa，托管在 GitHub Pages（gh-pages 分支）
 - 数据：Supabase（Postgres + RLS），tasks 表结构见 `sql/schema.sql`
 - 部署：push 到 main 自动构建部署（`.github/workflows/deploy.yml`）
-- 每日提醒：`.github/workflows/daily-reminder.yml`（UTC 0:00），通过 Server酱推送微信
+- 每日提醒：Supabase 内 pg_cron 定时（`sql/reminder.sql`，北京时间 8:00），通过 Server酱推送微信；GH Actions 的 daily-reminder 仅作手动测试
+- 保活：`.github/workflows/keep-alive.yml` 每天 ping 一次 Supabase，防免费层 7 天暂停
 
 ## 维护备忘
 

@@ -1,0 +1,18 @@
+name: Keep Supabase alive
+
+on:
+  schedule:
+    - cron: '30 12 * * *' # UTC 12:30 = 北京时间 20:30
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      # 每天请求一次 Supabase，防止免费层项目 7 天无活动被暂停
+      # anon key 是公开信息，直接写在这里即可
+      - run: |
+          curl -sf -o /dev/null "https://jbkqugkxuoegnfhejwbi.supabase.co/rest/v1/tasks?select=id&limit=1" \
+            -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impia3F1Z2t4dW9lZ25maGVqd2JpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY2NzY4MDUsImV4cCI6MjEwMjI1MjgwNX0.tkdBPJQF4i-MgKGt9zPaLFR_1yjH2Dp3EbeUMU4LN0o" \
+            -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impia3F1Z2t4dW9lZ25maGVqd2JpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY2NzY4MDUsImV4cCI6MjEwMjI1MjgwNX0.tkdBPJQF4i-MgKGt9zPaLFR_1yjH2Dp3EbeUMU4LN0o"
+          echo "ping ok"
