@@ -4,6 +4,8 @@
 -- ========== 第 1 段：建表和函数（先全部执行这一段） ==========
 
 -- 1) 私有配置表（存 Server酱 key，放在 private schema，用户端无权读取）
+create schema if not exists private;
+
 create table if not exists private.config (
   key text primary key,
   value text not null
