@@ -8,6 +8,7 @@ import TabBar from './components/TabBar.vue'
 import TaskList from './components/TaskList.vue'
 import TaskSheet from './components/TaskSheet.vue'
 import MoveSheet from './components/MoveSheet.vue'
+import SettingsSheet from './components/SettingsSheet.vue'
 
 const { tasks, loading, error, load, add, update, toggleDone, move, remove, search, todayStr, reset } = useTasks()
 
@@ -23,6 +24,7 @@ const results = ref([])
 const searchBusy = ref(false)
 const sheetTask = ref(null)
 const moveSheetTask = ref(null)
+const showSettings = ref(false)
 const toast = ref('')
 let toastTimer = null
 let searchTimer = null
@@ -182,6 +184,12 @@ onMounted(async () => {
         安心清单
       </div>
       <div class="header-actions">
+        <button class="icon-btn" aria-label="设置" @click="showSettings = true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3" />
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+          </svg>
+        </button>
         <button class="icon-btn" aria-label="搜索" @click="searching = true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
             <circle cx="11" cy="11" r="7" />
@@ -257,6 +265,12 @@ onMounted(async () => {
       :task="moveSheetTask"
       @close="moveSheetTask = null"
       @move="onMove"
+    />
+
+    <SettingsSheet
+      v-if="showSettings && session"
+      :user-id="session.user.id"
+      @close="showSettings = false"
     />
 
     <div v-if="toast" class="toast">{{ toast }}</div>

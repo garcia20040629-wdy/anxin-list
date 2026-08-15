@@ -516,6 +516,45 @@ textarea:focus {
   margin-top: 4px;
 }
 
+/* 设置 */
+.settings-section {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.settings-section h4 {
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+.settings-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 8px;
+}
+
+.settings-steps {
+  font-size: 13px;
+  color: var(--muted);
+  padding-left: 20px;
+  margin-bottom: 10px;
+  line-height: 1.8;
+}
+
+.settings-save {
+  margin-top: 10px;
+}
+
+.settings-ok {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--accent);
+}
+
 /* 错误提示 */
 .toast {
   position: fixed;
