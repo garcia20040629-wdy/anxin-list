@@ -69,10 +69,9 @@ begin
 
   desp := array_to_string(lines, E'\n');
 
-  perform net.http_post(
+  perform net.http_get(
     url := 'https://sctapi.ftqq.com/' || sendkey || '.send',
-    body := 'title=' || private.urlencode(title) || '&desp=' || private.urlencode(desp),
-    headers := jsonb_build_object('Content-Type', 'application/x-www-form-urlencoded')
+    params := jsonb_build_object('title', title, 'desp', desp)
   );
 end;
 $$;
